@@ -1,0 +1,129 @@
+===== circuit_self_test (rc=0, external_wall=0.514257s) =====
+Exact circuit-state counts under {SHL,SHR,AND,XOR}:
+  gates=0: 1 (expected 1)
+  gates=1: 38 (expected 38)
+  gates=2: 915 (expected 915)
+  gates=3: 17942 (expected 17942)
+  gates=4: 331291 (expected 331291)
+R4 exact cost: 1 (expected 1)
+P_star exact cost: 4 (expected 4)
+I^L1^R4 exact cost: 4 (expected 4)
+
+SELF-TEST: PASS
+
+===== circuit_demo (rc=0, external_wall=0.508478s) =====
+R4
+target code: 1048576 (0x100000)
+target (rows):
+  [ 0 0 0 0 1 ]
+  [ 0 0 0 0 0 ]
+  [ 0 0 0 0 0 ]
+  [ 0 0 0 0 0 ]
+  [ 0 0 0 0 0 ]
+states observed by depth:
+  gates=0: 1
+  gates=1: 20
+states expanded: 1
+successor states created: 20
+EXACT MINIMUM GATE COUNT: 1
+v0 = x
+v1 = v0 >> 4    // matrix=0x100000
+return v1;
+witness operator counts: shifts=1, ands=0, xors=0
+witness dependency depth: 1 (gate count is exact; depth is for this witness)
+
+============================================================
+
+P_star = I ^ L3 ^ R2
+target code: 21304905 (0x1451649)
+target (rows):
+  [ 1 0 1 0 0 ]
+  [ 0 1 0 1 0 ]
+  [ 0 0 1 0 1 ]
+  [ 1 0 0 1 0 ]
+  [ 0 1 0 0 1 ]
+states observed by depth:
+  gates=0: 1
+  gates=1: 38
+  gates=2: 915
+  gates=3: 17942
+  gates=4: 95464
+states expanded: 5503
+successor states created: 114359
+EXACT MINIMUM GATE COUNT: 4
+v0 = x
+v1 = (v0 << 3) & 0x1F    // matrix=0x208
+v2 = v0 >> 2    // matrix=0x410400
+v3 = v1 ^ v2    // matrix=0x410608
+v4 = v3 ^ v0    // matrix=0x1451649
+return v4;
+witness operator counts: shifts=2, ands=0, xors=2
+witness dependency depth: 3 (gate count is exact; depth is for this witness)
+
+============================================================
+
+v2 equal-proxy alternative = I ^ L1 ^ R4
+target code: 18624707 (0x11C30C3)
+target (rows):
+  [ 1 0 0 0 1 ]
+  [ 1 1 0 0 0 ]
+  [ 0 1 1 0 0 ]
+  [ 0 0 1 1 0 ]
+  [ 0 0 0 1 1 ]
+states observed by depth:
+  gates=0: 1
+  gates=1: 38
+  gates=2: 915
+  gates=3: 17942
+  gates=4: 268893
+states expanded: 14812
+successor states created: 287788
+EXACT MINIMUM GATE COUNT: 4
+v0 = x
+v1 = (v0 << 1) & 0x1F    // matrix=0x82082
+v2 = v0 >> 4    // matrix=0x100000
+v3 = v1 ^ v2    // matrix=0x182082
+v4 = v3 ^ v0    // matrix=0x11C30C3
+return v4;
+witness operator counts: shifts=2, ands=0, xors=2
+witness dependency depth: 3 (gate count is exact; depth is for this witness)
+
+============================================================
+
+v2 strongest structured-robustness witness (lower-bound run)
+target code: 11266486 (0xABE9B6)
+target (rows):
+  [ 0 1 0 1 0 ]
+  [ 1 0 1 1 1 ]
+  [ 1 1 0 1 0 ]
+  [ 0 1 1 0 1 ]
+  [ 1 0 1 1 0 ]
+states observed by depth:
+  gates=0: 1
+  gates=1: 38
+  gates=2: 915
+  gates=3: 17942
+  gates=4: 331291
+states expanded: 18896
+successor states created: 350186
+NOT FOUND through 4 gates
+CERTIFIED LOWER BOUND: gate_count >= 5
+
+===== synth_self_test (rc=0, external_wall=0.031047s) =====
+Grassmann GF(2)^5 subspaces by dimension:
+  dim 0: 1 (expected 1)
+  dim 1: 31 (expected 31)
+  dim 2: 155 (expected 155)
+  dim 3: 155 (expected 155)
+  dim 4: 31 (expected 31)
+  dim 5: 1 (expected 1)
+Gaussian vs Grassmann deterministic sweep: PASS
+rank(P_star):     4 (expected 4)
+rank(I+P_star):   5 (expected 5)
+mix matrix check: PASS
+n=2 hardware rank-ceiling exhaustive verifier
+  configurations: 65536
+  P evaluations:  1048576
+  failures:       0
+
+SELF-TEST: PASS
